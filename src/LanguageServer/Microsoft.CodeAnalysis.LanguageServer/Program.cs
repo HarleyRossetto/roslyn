@@ -129,6 +129,8 @@ static async Task RunAsync(ServerConfiguration serverConfiguration, Cancellation
     if (serverConfiguration.UseStdIo)
     {
         server = new LanguageServerHost(Console.OpenStandardInput(), Console.OpenStandardOutput(), exportProvider, languageServerLogger, typeRefResolver);
+        // Redirect Console.Out to try prevent the standard output stream from being corrupted.
+        Console.SetOut(new StreamWriter(Console.OpenStandardError()));
     }
     else
     {
